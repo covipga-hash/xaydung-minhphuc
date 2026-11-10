@@ -438,7 +438,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (!phoneVal || digitsOnly.length < 9 || digitsOnly.length > 11) {
         if (modalPhoneError) {
           modalPhoneError.hidden = false;
-          modalPhoneError.textContent = 'Vui lòng nhập đúng số điện thoại (ví dụ: 0901 234 567)';
+          modalPhoneError.textContent = 'Vui lòng nhập đúng số điện thoại (ví dụ: 0972 892 812)';
         }
         if (modalPhoneInput) modalPhoneInput.focus();
         return;
@@ -462,7 +462,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (successSummaryDesc) successSummaryDesc.textContent = summaryText;
       if (successPhoneText) successPhoneText.textContent = phoneVal;
 
-      // Tạo link nhắn tin Zalo với thông số đã chọn (số hotline mẫu 0901234567)
+      // Tạo link nhắn tin Zalo với thông số đã chọn (số hotline mẫu 0972892812)
       if (successZaloBtn) {
         const zaloMsg = encodeURIComponent(
           'Xin chào Minh Phúc, tôi vừa gửi yêu cầu báo giá trên website cho công trình: ' + summaryText +
@@ -470,7 +470,7 @@ document.addEventListener('DOMContentLoaded', function () {
           (nameVal ? ' (' + nameVal + ')' : '') +
           '. Nhờ công ty tư vấn và gửi bảng bóc tách chi tiết giúp tôi.'
         );
-        successZaloBtn.href = 'https://zalo.me/0901234567?text=' + zaloMsg;
+        successZaloBtn.href = 'https://zalo.me/0972892812?text=' + zaloMsg;
       }
 
       // Điền sẵn vào form liên hệ ở cuối trang để đồng bộ
