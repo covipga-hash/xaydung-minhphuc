@@ -295,10 +295,11 @@ document.addEventListener('DOMContentLoaded', function () {
   calculateConstructionCost();
 
   /* =========================================================================
-     CỬA SỔ MODAL NHẬP SỐ ĐIỆN THOẠI ĐỂ GỬI BÁO GIÁ
-     - Tự động bật lên khi khách bấm "Tính chi phí ngay"
-     - Hỗ trợ autocomplete="tel" để bàn phím điện thoại tự động gợi ý số SIM 1 chạm
-     - Tự động lưu/điền trước số điện thoại đã lưu trong thiết bị (localStorage)
+     CHỨC NĂNG TỰ ĐỘNG ĐIỀN & ĐỒNG BỘ SỐ ĐIỆN THOẠI + TÊN TỪ MÁY KHÁCH HÀNG
+     - Tự động bật cửa sổ nhận báo giá khi khách bấm "Tính chi phí ngay"
+     - Hỗ trợ trình duyệt/thiết bị tự động điền cả Tên (autocomplete="name")
+       và Số điện thoại (autocomplete="tel") có sẵn trong máy khách hàng
+     - Lưu & điền sẵn đồng bộ giữa Cửa sổ báo giá và Form liên hệ cuối trang
      ========================================================================= */
   const quoteModal = document.getElementById('quote-modal');
   const modalBackdrop = document.getElementById('modal-backdrop');
@@ -309,6 +310,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const modalPhoneInput = document.getElementById('modal-phone');
   const modalNameInput = document.getElementById('modal-name');
   const modalPhoneError = document.getElementById('modal-phone-error');
+  const contactNameField = document.getElementById('contact-name');
+  const contactPhoneField = document.getElementById('contact-phone');
 
   const modalEstCost = document.getElementById('modal-est-cost');
   const modalSummaryType = document.getElementById('modal-summary-type');
@@ -320,6 +323,47 @@ document.addEventListener('DOMContentLoaded', function () {
   const successPhoneText = document.getElementById('success-phone-text');
   const successZaloBtn = document.getElementById('success-zalo-btn');
   const btnCloseAndView = document.getElementById('btn-close-and-view');
+
+  // Tự động đọc & điền sẵn Số điện thoại + Họ tên đã lưu hoặc tự động điền từ máy khách
+  function prefillCustomerInfo() {
+    try {
+      const savedPhone = localStorage.getItem('mp_customer_phone') || '';
+      const savedName = localStorage.getItem('mp_customer_name') || '';
+
+      if (savedPhone) {
+        if (modalPhoneInput && !modalPhoneInput.value) modalPhoneInput.value = savedPhone;
+        if (contactPhoneField && !contactPhoneField.value) contactPhoneField.value = savedPhone;
+      }
+      if (savedName) {
+        if (modalNameInput && !modalNameInput.value) modalNameInput.value = savedName;
+        if (contactNameField && !contactNameField.value) contactNameField.value = savedName;
+      }
+    } catch (e) {}
+  }
+
+  // Lưu và đồng bộ ngay lập tức khi khách hàng hoặc trình duyệt tự động điền (autofill) vào bất kỳ ô nào
+  function bindAutofillSync(sourceInput, storageKey, targetInput) {
+    if (!sourceInput) return;
+    ['input', 'change'].forEach(function (evtName) {
+      sourceInput.addEventListener(evtName, function () {
+        const val = sourceInput.value.trim();
+        try {
+          if (val) localStorage.setItem(storageKey, val);
+        } catch (e) {}
+        if (targetInput && targetInput.value.trim() !== val) {
+          targetInput.value = val;
+        }
+      });
+    });
+  }
+
+  bindAutofillSync(modalPhoneInput, 'mp_customer_phone', contactPhoneField);
+  bindAutofillSync(contactPhoneField, 'mp_customer_phone', modalPhoneInput);
+  bindAutofillSync(modalNameInput, 'mp_customer_name', contactNameField);
+  bindAutofillSync(contactNameField, 'mp_customer_name', modalNameInput);
+
+  // Chạy điền sẵn ngay khi trang web vừa tải xong
+  prefillCustomerInfo();
 
   function openQuoteModal() {
     if (!quoteModal) return;
@@ -350,25 +394,20 @@ document.addEventListener('DOMContentLoaded', function () {
     if (modalSuccessView) modalSuccessView.hidden = true;
     if (modalPhoneError) modalPhoneError.hidden = true;
 
-    // Điền sẵn số điện thoại / tên đã lưu trên máy (nếu có từ trước)
-    try {
-      const savedPhone = localStorage.getItem('mp_customer_phone');
-      const savedName = localStorage.getItem('mp_customer_name');
-      if (savedPhone && modalPhoneInput && !modalPhoneInput.value) {
-        modalPhoneInput.value = savedPhone;
-      }
-      if (savedName && modalNameInput && !modalNameInput.value) {
-        modalNameInput.value = savedName;
-      }
-    } catch (e) {}
+    // Tự động điền sẵn cả Số điện thoại lẫn Họ tên từ bộ nhớ/máy khách hàng
+    prefillCustomerInfo();
 
     // Hiển thị modal
     quoteModal.hidden = false;
     document.body.style.overflow = 'hidden'; // Ngăn cuộn nền trang
 
-    // Tự động focus vào ô số điện thoại để kích hoạt gợi ý số SIM từ bàn phím di động
+    // Focus vào ô còn trống (hoặc ô số điện thoại) để thiết bị tự động điền thông tin liên hệ
     setTimeout(function () {
-      if (modalPhoneInput) {
+      if (modalPhoneInput && !modalPhoneInput.value) {
+        modalPhoneInput.focus();
+      } else if (modalNameInput && !modalNameInput.value) {
+        modalNameInput.focus();
+      } else if (modalPhoneInput) {
         modalPhoneInput.focus();
       }
     }, 120);
@@ -407,6 +446,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const btnQuoteContact = document.getElementById('btn-quote-contact');
   if (btnQuoteContact) {
     btnQuoteContact.addEventListener('click', function () {
+      prefillCustomerInfo();
       const contactNeedInput = document.getElementById('contact-need');
       if (contactNeedInput && (!contactNeedInput.value || contactNeedInput.value.startsWith('Tư vấn công trình:'))) {
         const houseLabel = HOUSE_TYPE_LABELS[houseTypeSelect ? houseTypeSelect.value : 'nha-pho'] || 'Nhà phố';
@@ -462,7 +502,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (successSummaryDesc) successSummaryDesc.textContent = summaryText;
       if (successPhoneText) successPhoneText.textContent = phoneVal;
 
-      // Tạo link nhắn tin Zalo với thông số đã chọn (số hotline mẫu 0972892812)
+      // Tạo link nhắn tin Zalo với thông số đã chọn (hotline chính thức 0972892812)
       if (successZaloBtn) {
         const zaloMsg = encodeURIComponent(
           'Xin chào Minh Phúc, tôi vừa gửi yêu cầu báo giá trên website cho công trình: ' + summaryText +
@@ -601,6 +641,12 @@ document.addEventListener('DOMContentLoaded', function () {
         );
         return;
       }
+
+      // Lưu lại tên và số điện thoại khách vừa nhập để tự động điền cho các lần sau
+      try {
+        localStorage.setItem('mp_customer_name', fullName);
+        localStorage.setItem('mp_customer_phone', phone);
+      } catch (e) {}
 
       const recipient = 'lienhe@xaydungminhphuc.com';
       const subject = '[Tư vấn xây dựng - xaydungminhphuc.com] Yêu cầu từ ' + fullName;
