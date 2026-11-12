@@ -6,23 +6,32 @@
 
 /* 1. Khai báo biến màu sắc & phông chữ theo đúng bảng màu thiết kế */
 :root {
-  --bg-main: #fbfcfb;          /* Nền sáng chính */
-  --bg-alt: #edf4ee;           /* Dải nền xen kẽ xanh nhạt dịu mắt */
-  --surface-white: #ffffff;    /* Nền thẻ trắng */
+  /* ========================================================================
+     BẢNG MÀU KIẾN TRÚC CAO CẤP (ARCHITECTURAL PRESTIGE PALETTE)
+     Phối màu theo nguyên tắc 60 - 30 - 10 chuẩn kiến trúc & xây dựng cao cấp:
+     - 60% Nền: Slate 50 (#f8fafc) & Slate 100 (#f1f5f9) - sáng sủa, sạch sẽ, không ám xanh
+     - 30% Kết cấu: Deep Midnight Slate (#0b1322 / #0f172a) - vững chắc, tôn logo MP vàng 3D
+     - 10% Điểm nhấn: Terracotta Brick (#ea580c) & Amber Gold (#fbbf24) - năng lượng thi công
+     ======================================================================== */
+  --bg-main: #f8fafc;          /* Nền sáng chính: Slate 50 kiến trúc sạch, hiện đại */
+  --bg-alt: #f1f5f9;           /* Dải nền xen kẽ: Slate 100 đá vôi mịn mát mắt */
+  --surface-white: #ffffff;    /* Nền thẻ trắng tinh khiết */
 
-  --brand-green: #1e7a4c;      /* Xanh lá cho logo và icon */
-  --deep-green: #20704a;       /* Dải xanh đậm: thanh trên cùng, panel dự toán, footer */
-  --deep-green-dark: #175437;  /* Sắc độ đậm hơn cho viền / thanh bản quyền */
+  --brand-green: #0d7a53;      /* Xanh ngọc lục bảo: bảo hành & kiến trúc xanh */
+  --brand-green-light: #ecfdf5;/* Nền nhạt cho thẻ trạng thái */
+  --deep-green: #0f172a;       /* Deep Midnight Slate: Topbar, Panel Dự toán, Footer */
+  --deep-green-dark: #070b14;  /* Sắc độ sẫm cho thanh bản quyền chân trang */
 
-  --accent-orange: #e0651a;    /* Cam gạch cho nút hành động chính, giá tiền, dải CTA */
-  --accent-orange-hover: #c65410;
-  --hero-accent: #ffb066;      /* Chữ nhấn nổi bật ở phần Hero */
-  --star-gold: #dda01c;        /* Vàng sao đánh giá */
+  --accent-orange: #ea580c;    /* Cam gạch nung kiến trúc (Terracotta Brick) cho nút bấm & giá */
+  --accent-orange-hover: #c2410c;
+  --hero-accent: #fbbf24;      /* Vàng hổ phách ánh kim cho số liệu & điểm nhấn */
+  --star-gold: #f59e0b;        /* Vàng sao đánh giá & chứng nhận */
 
-  --text-primary: #16261e;     /* Chữ chính đậm, dễ đọc */
-  --text-secondary: #495d53;   /* Chữ mô tả phụ */
-  --text-muted: #6c8076;
-  --border-soft: #d7e5db;      /* Đường viền mảnh */
+  --text-primary: #0f172a;     /* Chữ chính: Đen đá phiến sắc nét, dễ đọc chuẩn WCAG AAA */
+  --text-secondary: #475569;   /* Chữ phụ: Xám kiến trúc thanh lịch, trung tính */
+  --text-muted: #64748b;       /* Chữ chú thích, ghi chú nhỏ */
+  --border-soft: #e2e8f0;      /* Đường viền hairline kiến trúc chuẩn bản vẽ */
+  --border-medium: #cbd5e1;
 
   --font-heading: 'Archivo', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
   --font-body: 'Be Vietnam Pro', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
@@ -31,9 +40,9 @@
   --radius-md: 16px;
   --radius-lg: 22px;
 
-  --shadow-sm: 0 4px 14px rgba(22, 38, 30, 0.05);
-  --shadow-md: 0 12px 30px rgba(22, 38, 30, 0.09);
-  --shadow-hover: 0 18px 36px rgba(22, 38, 30, 0.14);
+  --shadow-sm: 0 4px 16px rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 12px 32px rgba(15, 23, 42, 0.08);
+  --shadow-hover: 0 20px 42px rgba(15, 23, 42, 0.13);
 
   --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -221,14 +230,16 @@ textarea {
 
 .section-tag {
   display: inline-block;
-  padding: 5px 14px;
+  padding: 5px 15px;
   border-radius: 999px;
-  background-color: rgba(30, 122, 76, 0.11);
-  color: var(--brand-green);
+  background-color: #ffffff;
+  border: 1px solid var(--border-soft);
+  color: var(--accent-orange);
   font-weight: 700;
-  font-size: 0.82rem;
-  letter-spacing: 0.04em;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
   margin-bottom: 12px;
 }
 
@@ -299,16 +310,16 @@ textarea {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background-color: rgba(251, 252, 251, 0.88);
+  background-color: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid rgba(30, 122, 76, 0.1);
+  border-bottom: 1px solid var(--border-soft);
   transition: box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
 .site-header.is-scrolled {
-  background-color: rgba(251, 252, 251, 0.96);
-  box-shadow: 0 6px 22px rgba(22, 38, 30, 0.08);
+  background-color: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.07);
 }
 
 .header-inner {
@@ -450,14 +461,14 @@ textarea {
   padding: 86px 0 68px;
   color: #ffffff;
   overflow: hidden;
-  background-color: #143f29;
+  background-color: #0b1322;
 }
 
 .hero-bg {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(120deg, rgba(15, 49, 32, 0.93) 0%, rgba(32, 112, 74, 0.84) 58%, rgba(20, 62, 41, 0.90) 100%),
+    linear-gradient(125deg, rgba(11, 19, 34, 0.95) 0%, rgba(15, 29, 49, 0.88) 55%, rgba(13, 23, 39, 0.96) 100%),
     url('https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1600&q=80');
   background-size: cover;
   background-position: center;
@@ -613,12 +624,12 @@ textarea {
   position: absolute;
   bottom: -20px;
   right: 24px;
-  background-color: var(--brand-green);
+  background: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
   color: #ffffff;
   padding: 18px 24px;
   border-radius: var(--radius-md);
-  box-shadow: 0 14px 28px rgba(30, 122, 76, 0.3);
-  border: 4px solid var(--bg-main);
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.28);
+  border: 4px solid var(--surface-white);
   display: flex;
   flex-direction: column;
 }
@@ -807,8 +818,8 @@ textarea {
   width: 100%;
   padding: 12px 14px;
   border-radius: var(--radius-sm);
-  border: 1.5px solid #c7d9ce;
-  background-color: var(--bg-main);
+  border: 1.5px solid var(--border-medium);
+  background-color: var(--surface-white);
   color: var(--text-primary);
   transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
@@ -817,9 +828,9 @@ textarea {
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: var(--brand-green);
+  border-color: #0f172a;
   background-color: #ffffff;
-  box-shadow: 0 0 0 3px rgba(30, 122, 76, 0.14);
+  box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.1);
 }
 
 .field-hint {
@@ -852,11 +863,12 @@ textarea {
 
 /* Panel dự toán màu xanh đậm #20704a */
 .calc-result-panel {
-  background-color: var(--deep-green);
+  background: linear-gradient(150deg, #0b1322 0%, #152238 55%, #0f1a2c 100%);
   color: #ffffff;
   border-radius: var(--radius-lg);
   padding: 34px 30px;
-  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.18);
   display: flex;
   flex-direction: column;
 }
@@ -1140,19 +1152,6 @@ textarea {
   color: var(--brand-green);
 }
 
-.sim-autofill-tag {
-  float: right;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 0.74rem;
-  font-weight: 600;
-  color: var(--brand-green);
-  background-color: rgba(30, 122, 76, 0.12);
-  padding: 2px 8px;
-  border-radius: 999px;
-}
-
 .input-with-icon {
   position: relative;
   display: flex;
@@ -1271,15 +1270,15 @@ textarea {
 }
 
 .filter-btn:hover {
-  border-color: var(--brand-green);
-  color: var(--brand-green);
+  border-color: #0f172a;
+  color: #0f172a;
 }
 
 .filter-btn.active {
-  background-color: var(--brand-green);
-  border-color: var(--brand-green);
+  background-color: #0f172a;
+  border-color: #0f172a;
   color: #ffffff;
-  box-shadow: 0 6px 16px rgba(30, 122, 76, 0.24);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.22);
 }
 
 .projects-grid {
@@ -1399,18 +1398,20 @@ textarea {
 }
 
 .process-step-num {
-  width: 46px;
-  height: 46px;
+  width: 48px;
+  height: 48px;
   border-radius: 12px;
-  background-color: var(--brand-green);
-  color: #ffffff;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: var(--hero-accent);
+  border: 1px solid rgba(251, 191, 36, 0.3);
   font-family: var(--font-heading);
   font-weight: 800;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 18px;
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.15);
 }
 
 .process-title {
